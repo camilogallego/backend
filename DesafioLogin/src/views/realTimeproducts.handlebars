@@ -1,0 +1,40 @@
+<h2>Agregar producto</h2>
+<form id="addProduct" class='addProduct'>
+    <div>
+        <label for="titleProduct">Nombre
+            <input type="text" name='title'>
+        </label>
+    </div>
+    <div>
+        <label for="descriptionProduct">Descripción
+            <input type="text" name='description'>
+        </label>
+    </div>
+    <div>
+        <label for="categoryProduct">Categoría
+            <input type="text" name='category'>
+        </label>
+    </div>
+    <div>
+        <label for="priceProduct">Precio
+            <input type="number" name='price'>
+        </label>
+    </div>
+    <div>
+        <label for="codeProduct">Código
+            <input type="text" name='code'>
+        </label>
+    </div>
+    <div>
+        <label for="stockProduct">Stock
+            <input type="number" name='stock'>
+        </label>
+    </div>
+    <button id="btn">Agregar</button>
+</form>
+
+<div id='containerProducts'></div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/index/realTimeproducts.js"></script>
