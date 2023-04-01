@@ -1,6 +1,6 @@
 <div class='form-container'>
 	<h2>Registrate</h2>
-	<form action='/register' method='post'>
+	<form action='/api/register' method='post'>
 		<div>
 			<label for='username'>Nombre de usuario</label>
 			<input type='text' name='username' id='username' />
@@ -17,8 +17,8 @@
 			<label for='admin'>Sos admin?</label>
 			<input type='checkbox' name='rol' value='admin' id='admin' />
 		</div>
-		<button class='btn-submit' type='submit'>Registrate</button>
+		<button class='btn-submit' type='submit'>Registrar</button>
 	</form>
 	<p>¿Estás registrado?</p>
-	<a href='/login'>Iniciar Sesión</a>
+	<a href='/api/login'>Iniciar Sesión</a>
 </div>

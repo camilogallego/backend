@@ -8,6 +8,8 @@ const { Server } = require("socket.io");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+const passport = require("passport");
+const initializePassport = require("./config/passport.config");
 
 const productsRouter = require("./routers/productsRouter");
 const cartsRouters = require("./routers/cartsRouters");
@@ -44,6 +46,8 @@ app.use(
     saveUninitialized: false,
   })
 );
+initializePassport();
+app.use(passport.initialize());
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", path.join(__dirname, "/views"));
@@ -51,7 +55,7 @@ app.set("view engine", "handlebars");
 
 app.use(express.static(__dirname + "/public"));
 
-app.use("/", authRouter);
+app.use("/api", authRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouters);
 app.use("/api/messages", messagesRouter);

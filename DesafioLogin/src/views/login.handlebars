@@ -1,12 +1,21 @@
 <div class='form-container'>
 	<h2>Inicia Sesión</h2>
-	<form action='/login' method='post' id="loging">
+	<form action='/api/login' method='post' id="login">
 		<label for='email'>Email</label>
 		<input type='email' name='email' id='email' />
 		<label for='password'>Password</label>
 		<input type='password' name='password' id='password' />
-		<button class='btn-submit' type='submit'>Iniciar Sesión</button>
+		<button id="btn" class='btn-submit' type='submit'>Iniciar Sesión</button>
 	</form>
 	<p>¿No estás registrado?</p>
-	<a href='/register'>Registrate</a>
+	<button type="submit"><a href='/api/register'>Registrate</a></button>
+	<button type="submit"><a href="/api/recover">Restaurar contraseña</a></button>
+	<div class="">
+        <a href="/api/github"><button type="submit">Entrar con GITHUB</button></a>
+  </div>
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/index/login.js"></script>
