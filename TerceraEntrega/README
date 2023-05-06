@@ -1,0 +1,10 @@
+#VARIABLES DE ENTORNO
+
+NODE_ENV=Development
+PORT= 8080
+BASE_PREFIX="api"
+MONGO_URL='mongodb+srv://camilogallego:70Fip48YG6PjVr4z@camilocoder.7htnyca.mongodb.net/?retryWrites=true&w=majority'
+PERSISTENCE=MONGO
+GITHUB_CLIENT= ""
+GITHUB_SECRET=""
+SESSION_SECRET=""
