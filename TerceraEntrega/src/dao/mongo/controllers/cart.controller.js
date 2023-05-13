@@ -1,8 +1,10 @@
 import CartServiceDao from "../services/cart.services.js";
 import ProductService from "../services/product.services.js";
 import ticketModel from "../models/ticket.model.js";
+import { ErrorsHTTP } from "../services/error.handle.js"
 
 const cartServiceDao = new CartServiceDao();
+const httpResp = new ErrorsHTTP();
 
 class CartController {
   CartServiceDao;
@@ -15,9 +17,10 @@ class CartController {
   async addCart(req, res) {
     try {
       await cartServiceDao.addCart();
-      return res.status(200).json({ message: "Cart create" });
+      return httpResp.Created(res, "Create Cart");
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return httpResp.Error(res, "Error create Cart")
+
     }
   }
 
@@ -25,9 +28,9 @@ class CartController {
     const cartId = req.params.cid;
     try {
       const cart = await cartServiceDao.getProductsByCartId(cartId);
-      return res.status(200).json({ cart });
+      return httpResp.ok(res, {cart})
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return httpResp.Error(res, "Error getting the product");
     }
   }
 
@@ -36,11 +39,9 @@ class CartController {
     const productId = req.params.pid;
     try {
       await cartServiceDao.addProductToCart(cartId, productId);
-      return res
-        .status(200)
-        .json({ message: "Product added to cart" });
+      return httpResp.OK(res, "Product added to cart");
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return httpResp.Error(res, "Error adding product to cart");
     }
   }
 
@@ -49,11 +50,10 @@ class CartController {
     const productId = req.params.pid;
     try {
       await cartServiceDao.delProductFromCart(cartId, productId);
-      return res
-        .status(200)
-        .json({ message: "Product delete of the cart" });
+      return httpResp.OK(res, "Product delete of the cart");
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return httpResp.Error(res, "Error deleting cart");
+      
     }
   }
 
@@ -61,9 +61,9 @@ class CartController {
     const cartId = req.params.cid;
     try {
       await cartServiceDao.delProducts(cartId);
-      return res.status(200).json({ message: "Products delete of the cart" });
+      return httpResp.OK(res, "Products delete of the cart")
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return httpResp.Error(res, "Error removing products from cart");
     }
   }
 
@@ -73,11 +73,9 @@ class CartController {
     const quantity = req.body.quantity;
     try {
       await cartServiceDao.updateQuantity(cartId, productId, quantity);
-      return res
-        .status(200)
-        .json({ message: "Quantity update" });
+      return httpResp.OK(res, "Quantity update");
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return httpResp.Error(res, "Error updating cart quantity");
     }
   }
 
@@ -118,13 +116,14 @@ class CartController {
         )
       );
 
-      return res.status(200).json({
+      return httpResp.OK({
+        res,
         message: "Successful purchase",
         ticket,
         productsNotPurchased: productsToRemove,
       });
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      return httpResp.Error(res, "error when making the purchase of the cart");
     }
   }
 }

@@ -18,6 +18,7 @@ import chatRouter from "./routes/chat.routes.js";
 import productsRouter from "./routes/product.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import viewsRouter from "./routes/view.routes.js";
+import mockRouter from './routes/mock.router.js'
 
 import productModel from "./dao/mongo/models/product.model.js";
 import ProductServiceDao from "./dao/mongo/services/product.services.js";
@@ -70,6 +71,7 @@ app.use(`/${BASE_PREFIX}/products`, productsRouter);
 app.use(`/${BASE_PREFIX}/carts`, cartRouter);
 app.use(`/${BASE_PREFIX}/messages`, chatRouter);
 app.use(`/${BASE_PREFIX}/session`, authRouter);
+app.use(`/mockproducts`, mockRouter);
 
 
 app.get("/realtimeproducts", async (req, res) =>

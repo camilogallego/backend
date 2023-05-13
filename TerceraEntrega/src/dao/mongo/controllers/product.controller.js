@@ -1,6 +1,8 @@
 import { ProductService } from "../repository/index.js";
 import { paginateResults } from "../../../utils/paginate.js";
+import { ErrorsHTTP} from "../services/error.handle.js";
 
+const httpResp = new ErrorsHTTP();
 class ProductCtrl {
   productService;
 
@@ -28,10 +30,7 @@ class ProductCtrl {
         prevPage: paginatedResults.prevPage,
       });
     } catch (error) {
-      return res.status(500).json({
-        message: "Something went wrong in getProducts",
-        error: error.message,
-      });
+      return httpResp.Error(res, 'error getting the products');
     }
   };
 
@@ -47,10 +46,7 @@ class ProductCtrl {
         products: filteredProducts,
       });
     } catch (error) {
-      return res.status(500).json({
-        message: "Something went wrong in filterProducts",
-        error: error.message,
-      });
+      return httpResp.Error(res, "Error filtering products");
     }
   };
 
@@ -60,9 +56,7 @@ class ProductCtrl {
       const product = await this.productService.getProductById(pid);
 
       if (!product) {
-        return res.status(404).json({
-          message: "Product not found",
-        });
+        return httpResp.NotFound(res, "Error 404 not found");
       }
 
       return res.json({
@@ -70,10 +64,7 @@ class ProductCtrl {
         product: product,
       });
     } catch (error) {
-      return res.status(500).json({
-        message: "error product by id",
-        error: error.message,
-      });
+      return httpResp.Error(res, "Error filtering products by ID");
     }
   };
 
@@ -86,10 +77,7 @@ class ProductCtrl {
         product: newProduct,
       });
     } catch (error) {
-      return res.status(500).json({
-        message: "error adding product",
-        error: error.message,
-      });
+      return httpResp.Error(res, "error adding product");
     }
   };
 
@@ -104,9 +92,7 @@ class ProductCtrl {
       );
 
       if (!updatedProduct) {
-        return res.status(404).json({
-          message: "Product not found",
-        });
+        return httpResp.NotFound(res, "Error 404 not found");
       }
 
       return res.json({
@@ -114,10 +100,7 @@ class ProductCtrl {
         product: updatedProduct,
       });
     } catch (error) {
-      return res.status(500).json({
-        message: "not Product update",
-        error: error.message,
-      });
+      return httpResp.Error(res, "Error updating products");
     }
   };
 }
