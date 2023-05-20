@@ -12,6 +12,7 @@ import initializePassport from "./config/passport.config.js";
 import passport from "passport";
 import * as dotenv from "dotenv";
 import { BASE_PREFIX, PORT, MONGO_URL } from "../config/config.js";
+import addLogger from "./utils/logger.js";
 
 import cartRouter from "./routes/cart.routes.js";
 import chatRouter from "./routes/chat.routes.js";
@@ -40,6 +41,7 @@ const socketServer = new Server(httpServer);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(addLogger);
 initializePassport();
 app.use(
   session({
@@ -72,6 +74,7 @@ app.use(`/${BASE_PREFIX}/carts`, cartRouter);
 app.use(`/${BASE_PREFIX}/messages`, chatRouter);
 app.use(`/${BASE_PREFIX}/session`, authRouter);
 app.use(`/mockproducts`, mockRouter);
+app.use(`/${BASE_PREFIX}/loggerTest`, loggerTest);
 
 
 app.get("/realtimeproducts", async (req, res) =>
