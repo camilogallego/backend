@@ -11,8 +11,11 @@ import displayRoutes from "express-routemap";
 import initializePassport from "./config/passport.config.js";
 import passport from "passport";
 import * as dotenv from "dotenv";
-import { BASE_PREFIX, PORT, MONGO_URL } from "../config/config.js";
-import addLogger from "./utils/logger.js";
+
+import {addLogger} from "./utils/logger.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+import { swaggerOpts } from "./config/swagger.config.js";
 
 import cartRouter from "./routes/cart.routes.js";
 import chatRouter from "./routes/chat.routes.js";
@@ -31,12 +34,15 @@ const chatManager = new MessageServiceDao()
 
 
 const app = express();
-
+const PORT = 8080;
+const MONGO_URL = process.env.MONGO_URL;
+const BASE_PREFIX = process.env.BASE_PREFIX;
 const httpServer = app.listen(PORT, () => {
   displayRoutes(app);
   console.log(`Listening on ${PORT}`);
 });
 const socketServer = new Server(httpServer);
+const specs = swaggerJSDoc(swaggerOpts);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -75,6 +81,7 @@ app.use(`/${BASE_PREFIX}/messages`, chatRouter);
 app.use(`/${BASE_PREFIX}/session`, authRouter);
 app.use(`/mockproducts`, mockRouter);
 app.use(`/${BASE_PREFIX}/loggerTest`, loggerTest);
+app.use("/api/docs/", swaggerUi.serve, swaggerUi.setup(specs));
 
 
 app.get("/realtimeproducts", async (req, res) =>
@@ -121,4 +128,3 @@ socketServer.on("connection", async (socket) => {
 });
 
 mongoose.connect(MONGO_URL);
-

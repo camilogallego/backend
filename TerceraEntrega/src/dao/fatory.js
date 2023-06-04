@@ -5,7 +5,7 @@ import {
 } from "../config/config.js";
 
 
-export let Products;
+
 
 switch (PERSISTENCE) {
   case "MONGO":
@@ -30,3 +30,5 @@ switch (PERSISTENCE) {
     Products = ProductServiceDao2;
     break;
 }
+
+export let Products;
