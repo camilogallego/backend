@@ -1,0 +1,106 @@
+
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { Logger } from ('../../helpers');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const isRequired = () => { throw Error("Parametro faltante. No se puede crear un Producto si falta algun parametro.") };
+
+export class ProductManager {
+    #currentId = 1
+    constructor(filePath = isRequired) {
+        this.path = path.join(__dirname, filePath);
+        this.products = [];
+        this.init()
+    }
+
+    init = async () => {
+        if(!fs.existsSync(this.path)){
+            Logger.debug(`El archivo especificado ${this.path} no existe aun. Creando...`);
+            await fs.promises.writeFile(this.path, "[]")
+            Logger.debug(`Archivo ${this.path} Creado!`)
+            return;
+        }
+        const readProducts = fs.readFileSync(this.path);
+        const products = JSON.parse(readProducts);
+        if(products.length === 0) {
+            return;
+        }
+        this.products = products;
+        this.#currentId = products[products.length -1].id + 1;
+    }
+
+    addProduct = async ({title = isRequired(), description = isRequired(), price = isRequired(), thumbnails = [], code = isRequired(), stock = isRequired(), status = isRequired(), category = isRequired()}) => {
+        if(this.products.find(x => x.code === code)) {
+            throw Error("El producto ya existe");
+        }; 
+        const newProduct = {
+            title: title,
+            description: description,
+            price: price,
+            thumbnails: thumbnails,
+            code: code,
+            stock: stock,
+            status: status,
+            category: category,
+            id: this.#currentId,
+        };
+        
+        this.products.push(newProduct);
+        this.#currentId +=1;
+        await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2));
+    };
+
+    getProducts = async () => {
+        if(fs.existsSync(this.path)){
+            const readProducts = await fs.promises.readFile(this.path);
+            const products = JSON.parse(readProducts);
+            return products;
+        }
+        Logger.warning(`El archivo ${this.path} no existe`)
+        return [];
+    };
+    
+    getProductById = async (id = '') => {
+        if (!fs.existsSync(this.path)) {
+            Logger.warning(`El archivo ${this.path} no existe`)
+            return null;
+        }
+        const readProducts = await fs.promises.readFile(this.path);
+        const products = JSON.parse(readProducts);
+        const product = products.find(p => p.id === id); 
+        if(!product) {
+            Logger.warning("Producto no encontrado");
+            return null
+        };
+        return product;
+    }
+    
+    deleteProduct = async (id = '') => {
+        const newProducts = this.products.filter(product => product.id !== id);
+        this.products = newProducts;
+        const writeProducts = JSON.stringify(newProducts, null, 2);
+        await fs.promises.writeFile(this.path, writeProducts);
+    }
+
+    updateProduct = async (id = '', newProps = {} ) => {
+        const newPropsArr = Object.keys(newProps);
+        if (newPropsArr.length === 0) {
+            Logger.warning(`No hay props para actualizar para el producto con id ${id}`)
+            return;
+        }
+        const index = this.products.findIndex(producto => producto.id === id);
+        newPropsArr.forEach(prop => {
+            // chequeo que la prop no sea id y que el objeto tenga esa prop, es decir que la prop sea valida.
+            const isPropValid = this.products[index][prop] ?? false;
+            if(prop !== 'id' && isPropValid) {
+                this.products[index][prop]=newProps[prop];
+            }
+            else{
+                Logger.error('La propiedad ID no puede ser modificada');
+            }
+        });      
+        await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2));
+    }
+};

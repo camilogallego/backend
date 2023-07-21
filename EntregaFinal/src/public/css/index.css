@@ -1,0 +1,124 @@
+h2 {
+    color: darkslategrey;
+    margin-block: 15px;
+    margin-inline: auto;
+}
+
+ul {
+    padding-inline: 0px;
+    margin-inline: 0px;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0px, auto));
+    justify-content: center;
+    column-gap: 50px;
+}
+
+li {
+    padding: 2em;
+    border: 1px solid #d3c0c0;
+    margin-block: 20px;
+    text-decoration: none;
+    list-style: none;
+    width: 250px;
+    background-color: #e0e8ef;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+}
+li p {
+    margin: auto;
+}
+
+#futurePic{
+    background-color: lightgrey;
+    height: 200px;
+    border-radius: 10px;
+}
+
+#pagination{
+    display: flex;
+    align-items: center;
+}
+
+body, html{
+    padding:0 !important;
+    margin:0px !important;
+}
+
+body {
+    background-color: #c1c0cda8;
+}
+#pagination a {
+    margin-inline: 1em;
+    text-decoration: none;
+}
+
+.productsSection{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.agregarAlCarrito{
+    align-items: center;
+    display: flex;
+    background-color: lightblue;
+    height: 30px;
+    width: 150px;
+    justify-content: center;
+    margin-block: 1.2em;
+    text-decoration: none;
+    color: black;
+    border-radius: 10px;
+    border: 1px solid;
+}
+#productsToolbar{
+    display: flex;
+    padding-inline: 30px;
+    width: calc(100% - 60px);
+    justify-content: space-between;
+}
+
+#productsToolbar form{
+    display: flex;
+}
+
+#cartCount {
+    background-color: blue;
+    display: flex;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    margin-left: 5px;
+}
+
+#viewCart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.userBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: lightsteelblue;
+    height: 200px;
+    width: 400px;
+}
+
+.userInfo{
+    display: flex;
+    flex-direction: column;
+}
+
+.userMenu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 69%;
+    column-gap: 20px;
+}

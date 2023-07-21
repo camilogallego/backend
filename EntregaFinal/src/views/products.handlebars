@@ -1,0 +1,61 @@
+<section class="productsSection">
+    <div id="productsToolbar">
+        <form action="/api/v1/session/logout" method="get">
+            <label>You are currently logged in as {{email}}</label>
+            <br />
+            <button type="submit">logout</button>
+        </form>
+        <Button id="viewCart" onclick="viewCart('{{cartId}}')">
+            Carrito
+            <span id="cartCount">{{total_cart_products}}</span>
+        </Button>
+
+    </div>
+    <h1>Buenos dias {{first_name}} {{last_name}}</h1>
+    <h2>Productos Disponibles</h2>
+    {{#if products}}
+    <ul class="producsList">
+        {{#each products}}
+        <li>
+            <div>
+                <div id="futurePic"></div>
+                <h3>{{this.title}}</h3>
+                <p>Description: {{this.description}}</p>
+                <p>Category: {{this.category}}</p>
+                <p>Code: {{this.code}}</p>
+                <p>Price: {{this.price}}</p>
+                <p>Stock: {{this.stock}}</p>
+                <p>status: {{this.status}}</p>
+                {{!-- <form id="agregarACarrito" action="/api/v1/carts/{{../cartId}}/product/{{this.id}}" method="post">
+                    <input type="submit" value="Agregar Al Carrito">
+                </form> --}}
+                <button type="button" onclick="addProductToCart('{{this.id}}', '{{../cartId}}')">
+                    Agregar Al Carrito
+                </button>
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+    {{/if}}
+    <div id="pagination">
+        {{#if this.isNotInFirstPage}}
+        <a role="link" href={{this.firstPage}}>
+            First Page
+        </a>
+        {{/if}}
+        {{#if this.hasPrevPage}}
+        <a role="link" href={{this.prevPage}}>
+            < </a>
+                {{/if}}
+                <span>{{this.currentPage}}</span>
+                {{#if this.hasNextPage}}
+                <a role="link" aria-disabled="true" href={{this.nextPage}}>></a>
+                {{/if}}
+                {{#if this.isNotInLastPage}}
+                <a role="link" href={{this.lastPage}}>
+                    Last Page
+                </a>
+                {{/if}}
+    </div>
+</section>
+<script src="/js/products.js"></script>

@@ -1,0 +1,14 @@
+<div>
+  <h1>Chat coder</h1>
+  {{#if messages}} 
+    {{#each messages}}
+            <p>{{this.user}} dice: {{this.message}}</p>
+    {{/each}}
+  {{/if}}
+  <div id="messageLogs"></div>
+  <input id="chatbox" />
+</div>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/chat.js"></script>
